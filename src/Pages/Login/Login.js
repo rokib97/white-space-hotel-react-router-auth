@@ -1,14 +1,15 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import useFirebase from "../../hooks/useFirebase";
+import auth from "../../firebase.init";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { handleSignInWithGoogle } = useFirebase();
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
   const handleGoogleSignIn = () => {
-    handleSignInWithGoogle();
+    signInWithGoogle();
     navigate("/");
   };
   const handleForm = (event) => {

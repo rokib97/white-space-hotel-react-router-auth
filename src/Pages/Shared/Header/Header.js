@@ -1,9 +1,11 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import useFirebase from "../../../hooks/useFirebase";
 import "./Header.css";
 
 const Header = () => {
+  const { user, signOutFromGoogle } = useFirebase();
   return (
     <>
       <Navbar bg="light" variant="light">
@@ -28,12 +30,36 @@ const Header = () => {
             >
               Checkout
             </NavLink>
-            <NavLink
-              className={({ isActive }) => (isActive ? "active-link" : "link")}
-              to="/login"
-            >
-              Login
-            </NavLink>
+            {user?.uid ? (
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "link"
+                }
+                to="/login"
+                onClick={() => signOutFromGoogle()}
+              >
+                Sign Out
+              </NavLink>
+            ) : (
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "link"
+                }
+                to="/login"
+              >
+                Login
+              </NavLink>
+            )}
+            {user?.displayName && (
+              <NavLink
+                to="/home"
+                className={({ isActive }) =>
+                  isActive ? "active-link" : "link"
+                }
+              >
+                {user.displayName}
+              </NavLink>
+            )}
             <NavLink
               className={({ isActive }) => (isActive ? "active-link" : "link")}
               to="/about"
