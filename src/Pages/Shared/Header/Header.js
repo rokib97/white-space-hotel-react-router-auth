@@ -1,11 +1,18 @@
+import { signOut } from "firebase/auth";
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink } from "react-router-dom";
-import useFirebase from "../../../hooks/useFirebase";
+import auth from "../../../firebase.init";
+// import useFirebase from "../../../hooks/useFirebase";
 import "./Header.css";
 
 const Header = () => {
-  const { user, signOutFromGoogle } = useFirebase();
+  // let { user, signOutFromGoogle } = useFirebase();
+  const [user] = useAuthState(auth);
+  const handleSignOut = () => {
+    signOut(auth);
+  };
   return (
     <>
       <Navbar bg="light" variant="light">
@@ -36,7 +43,8 @@ const Header = () => {
                   isActive ? "active-link" : "link"
                 }
                 to="/login"
-                onClick={() => signOutFromGoogle()}
+                // onClick={() => signOutFromGoogle()}
+                onClick={handleSignOut}
               >
                 Sign Out
               </NavLink>
@@ -50,7 +58,7 @@ const Header = () => {
                 Login
               </NavLink>
             )}
-            {user?.displayName && (
+            {user?.uid && (
               <NavLink
                 to="/home"
                 className={({ isActive }) =>
