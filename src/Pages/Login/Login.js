@@ -12,7 +12,7 @@ const Login = () => {
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signInWithEmailAndPassword, user, error] =
+  const [signInWithEmailAndPassword, user, , error] =
     useSignInWithEmailAndPassword(auth);
   const navigate = useNavigate();
   let from = location.state?.from?.pathname || "/";
@@ -55,7 +55,8 @@ const Login = () => {
             placeholder="Password"
           />
         </Form.Group>
-        <p style={{ color: "red" }}>{error?.message}</p>
+        {error && <p style={{ color: "red" }}>{error?.message}</p>}
+
         <Button className="w-100" variant="info" type="submit">
           Log in
         </Button>

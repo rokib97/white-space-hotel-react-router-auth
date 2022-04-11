@@ -12,7 +12,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [createUserWithEmailAndPassword, user] =
+  const [createUserWithEmailAndPassword, user, , fireBaseError] =
     useCreateUserWithEmailAndPassword(auth);
   const navigate = useNavigate();
   const { handleSignInWithGoogle } = useFirebase();
@@ -72,6 +72,7 @@ const Signup = () => {
           />
         </Form.Group>
         <p style={{ color: "red" }}>{error}</p>
+        <p style={{ color: "red" }}>{fireBaseError?.message}</p>
         <Button className="w-100" variant="info" type="submit">
           Sign Up
         </Button>
