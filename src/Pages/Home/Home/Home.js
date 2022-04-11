@@ -1,10 +1,11 @@
 import React from "react";
+import Services from "../Services/Services";
 
 const Home = () => {
   return (
-    <div>
-      <h3>Home</h3>
-    </div>
+    <>
+      <Services></Services>
+    </>
   );
 };
 
