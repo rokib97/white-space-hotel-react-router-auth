@@ -5,15 +5,17 @@ import {
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 
 const Login = () => {
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signInWithEmailAndPassword, user, error] =
     useSignInWithEmailAndPassword(auth);
   const navigate = useNavigate();
+  let from = location.state?.from?.pathname || "/";
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const handleGoogleSignIn = () => {
     signInWithGoogle();
@@ -27,9 +29,9 @@ const Login = () => {
   };
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate(from, { replace: true });
     }
-  }, [user, navigate]);
+  }, [from, navigate, user]);
   const handleForm = (event) => {
     event.preventDefault();
     signInWithEmailAndPassword(email, password);
