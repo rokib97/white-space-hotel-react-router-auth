@@ -1,12 +1,22 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useFirebase from "../../hooks/useFirebase";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { handleSignInWithGoogle } = useFirebase();
+  const handleGoogleSignIn = () => {
+    handleSignInWithGoogle();
+    navigate("/");
+  };
+  const handleForm = (event) => {
+    event.preventDefault();
+  };
   return (
     <div className="container mt-5 sign-up-details">
-      <Form className="">
+      <Form onSubmit={handleForm}>
         <h1 className="text-center mb-3">Log in</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control type="email" placeholder="Enter email" />
@@ -15,16 +25,20 @@ const Login = () => {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Control type="password" placeholder="Password" />
         </Form.Group>
-        <Button className="w-100" variant="primary" type="submit">
+        <Button className="w-100" variant="info" type="submit">
           Log in
         </Button>
         <p className="text-center mt-2">
-          New to white Space?
+          New to WhiteSpace?
           <Link to="/signup" style={{ textDecoration: "none" }}>
             Create an account
           </Link>
         </p>
-        <Button className="w-100 btn btn-light mt-5 sign-up" type="submit">
+        <Button
+          onClick={handleGoogleSignIn}
+          className="w-100 btn btn-light mt-5 sign-up"
+          type="submit"
+        >
           <FcGoogle className="icon" />
           Continue With Google
         </Button>
